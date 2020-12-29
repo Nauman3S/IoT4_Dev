@@ -11,10 +11,10 @@ int IN3_1 = A2;
 int IN4_1 = A3;
 
 
-int IN1_2 = A4; 
-int IN2_2 = A5; 
-int IN3_2 = A6;
-int IN4_2 = A7;
+int IN1_2 = A7; 
+int IN2_2 = A6; 
+int IN3_2 = A5;
+int IN4_2 = A4;
 void setupMotor1()
 {
   pinMode(IN1_1, OUTPUT);
