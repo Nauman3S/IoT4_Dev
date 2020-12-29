@@ -1,9 +1,8 @@
 
-
 #include "MQTTHandler.h"
-#include "ANSerialHandler.h"
-String msgS1="";
-
+#define microSW D4
+String msgP="";
+String msgP_e_id="";
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
@@ -11,7 +10,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("] ");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
-    //msgR=msgR+String((char)payload[i]);
+    
   }
   Serial.println();
 
@@ -28,7 +27,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 void setup() {
   Serial.begin(9600);                                           // Initialize serial communications with the PC
-  setupSerials();
+  pinMode(D4,INPUT_PULLUP);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
@@ -45,17 +44,25 @@ void loop() {
   client.loop();
 
   unsigned long now = millis();
-  msgS1=readS1Data();
   if (now - lastMsg > 1000) {
     lastMsg = now;
     ++value;
-    if(msgS1!=String("")){
-    
-    SendValue("out/rider/a",msgS1);
-    SendValue("out/rider/b",msgS1);
-    
+    int SW=digitalRead(microSW);
+    if(SW==0){
+      msgP=String("true");
     }
-    SendValue("out/rider/r_id",String(WiFi.macAddress()));
+    else{
+      msgP=String("false");
+    }
+
+    
+    if(msgP!=String("")){
+    SendValue("out/paybox/a",msgP);
+    //msgP="";
+    }
+    
+   
+    SendValue("out/paybox/p_id",String(WiFi.macAddress()));
   }
 
   

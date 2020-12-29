@@ -56,7 +56,7 @@ void reconnect() {
       // Once connected, publish an announcement...
       //client.publish("outTopic", "hello world");
       // ... and resubscribe
-      client.subscribe("out/et/a");
+      //client.subscribe("out/et/a");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());

@@ -1,7 +1,12 @@
 
 #include "MQTTHandler.h"
 
+String msgE="";
+String msgE_e_id="";
+String msgP_p_id="";
+String msgR_r_id="";
 String msgR="";
+String msgP="";
 
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
@@ -9,7 +14,24 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("] ");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
-    msgR=msgR+String((char)payload[i]);
+    if(String(topic)==String("out/et/a")){
+    msgE=msgE+String((char)payload[i]);
+    }
+    else if(String(topic)==String("out/et/e_id")){
+      msgE_e_id=msgE_e_id+String((char)payload[i]);
+    }
+    else if(String(topic)==String("out/rider/a")){
+      msgR=msgR+String((char)payload[i]);
+    }
+    else if(String(topic)==String("out/paybox/a")){
+      msgP=msgP+String((char)payload[i]);
+    }
+    else if(String(topic)==String("out/paybox/p_id")){
+      msgP_p_id=msgP_p_id+String((char)payload[i]);
+    }
+    else if(String(topic)==String("out/rider/r_id")){
+      msgR_r_id=msgR_r_id+String((char)payload[i]);
+    }
   }
   Serial.println();
 
@@ -47,10 +69,34 @@ void loop() {
     ++value;
     
     if(msgR!=String("")){
-    SendValue("out/controller/entrance",msgR);
+    SendValue("out/controller/rider",msgR);
     msgR="";
     }
-    
+    if(msgE_e_id!=String("")){
+    SendValue("out/controller/r_id",msgR_r_id);
+    msgR_r_id="";
+    }
+    if(msgE!=String("")){
+    SendValue("out/controller/entrance",msgE);
+    msgE="";
+    }
+    if(msgP!=String("")){
+    SendValue("out/controller/paybox",msgP);
+    msgP="";
+    }
+    if(msgE_e_id!=String("")){
+    SendValue("out/controller/e_id",msgE_e_id);
+    msgE_e_id="";
+    }
+    if(msgP_p_id!=String("")){
+    SendValue("out/controller/p_id",msgP_p_id);
+    msgP_p_id="";
+    }
+    if(msgR_r_id!=String("")){
+    SendValue("out/controller/r_id",msgR_r_id);
+    msgR_r_id="";
+    }
+    SendValue("out/controller/c_id",String(WiFi.macAddress()));
   }
 
   

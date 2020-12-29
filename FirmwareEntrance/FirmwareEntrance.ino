@@ -89,6 +89,7 @@ void loop() {
     
     if(nameS!=String("")){
     SendValue("out/et/a",nameS);
+    SendValue("out/et/e_id",String(WiFi.macAddress()));
     nameS="";
     }
     
