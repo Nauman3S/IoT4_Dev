@@ -2,8 +2,8 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "hotspot2";
-const char* password = "abc123098a#";
+const char* ssid = "WiFiName";
+const char* password = "WiFiPassword";
 const char* mqtt_server = "broker.hivemq.com";
 
 void setup_wifi();
