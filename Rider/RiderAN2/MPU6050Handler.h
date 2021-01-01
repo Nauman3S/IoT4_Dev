@@ -1,7 +1,9 @@
 // Basic demo for accelerometer readings from Adafruit MPU6050
 void setupMPU6050();
 String getMPU605Data();
-
+float getGX();
+float getGY();
+float getGZ();
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
@@ -84,6 +86,18 @@ void setupMPU6050() {
   delay(100);
 }
 
+float gx=0.0;
+float gy=0.0;
+float gz=0.0;
+float getGX(){
+return gx;
+}
+float getGY(){
+return gy;
+}
+float getGZ(){
+return gz;
+}
 String getMPU605Data() {
 
   /* Get new sensor events with the readings */
@@ -108,6 +122,9 @@ String getMPU605Data() {
   Serial.print(g.gyro.z);
   Serial.println(" rad/s");
   gyroValues=String(g.gyro.x)+String(";")+String(g.gyro.y)+String(";")+String(g.gyro.z);
+  gx=g.gyro.x;
+  gy=g.gyro.y;
+  gz=g.gyro.z;
 //  Serial.print("Temperature: ");
 //  Serial.print(temp.temperature);
 //  Serial.println(" degC");
